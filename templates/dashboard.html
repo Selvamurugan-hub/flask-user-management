@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h1>Welcome {{ user }}</h1>
+
+<div class="card">
+
+{% if message is defined and message %}
+<p>{{ message }}</p>
+{% endif %}
+
+<h2>Search User</h2>
+<form action="/search" method="POST">
+    <input type="text" name="searchname" placeholder="Search name">
+    <input type="submit" value="Search">
+</form>
+
+<h2>Add User</h2>
+<form action="/add" method="POST">
+    <input type="text" name="username" placeholder="Enter name">
+    <input type="submit" value="Add">
+</form>
+
+</div>
+
+<div class="card">
+<h2>Saved Users</h2>
+
+<ul>
+{% for u in users %}
+    <li>
+        {{ u[0] }}
+
+        <form action="/delete" method="POST" style="display:inline;">
+            <input type="hidden" name="username" value="{{ u[0] }}">
+            <button type="submit">Delete</button>
+        </form>
+
+    </li>
+{% endfor %}
+</ul>
+
+</div>
+<ul>
+{% for u in users %}
+    <li>
+        {{ u[0] }}
+
+        <form action="/delete" method="POST" style="display:inline;">
+            <input type="hidden" name="username" value="{{ u[0] }}">
+            <button type="submit">Delete</button>
+        </form>
+
+        <form action="/edit" method="POST" style="display:inline;">
+            <input type="hidden" name="oldname" value="{{ u[0] }}">
+            <input type="text" name="newname" placeholder="New name">
+            <button type="submit">Edit</button>
+        </form>
+
+    </li>
+{% endfor %}
+</ul>
+
+<a href="/logout">Logout</a>
+
+</body>
+</html>
